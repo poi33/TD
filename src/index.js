@@ -1,6 +1,7 @@
 import * as PIXI from "pixi.js";
 import { Tile, TYPE_ENUM } from "./tile.js";
-//import { Graphics as PGraphics } from "pixi.js";
+import { GameUi } from "./ui.js";
+import * as PF from "pathfinding";
 
 const app = new PIXI.Application({
     width: 1000,
@@ -8,29 +9,35 @@ const app = new PIXI.Application({
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-    //console.log("Start game");
     document.body.appendChild(app.view);
-    drawGame();
+    const renderWidth = app.view.width; // 800
+    const renderHeight = app.view.height; // 600
+
+    console.log(PF);
+
+    setupGrid(app.stage);
+    setupUI(app.stage);
     /* app.stage.interactive = true;
     app.stage.addEventListener("mouseDown", () => {
         console.log("press down");
     }); */
 });
 
-function drawGame() {
-    const renderWidth = app.view.width; // 800
-    const renderHeight = app.view.height; // 600
+function setupUI(stage) {
+    const uiContainer = new GameUi();
+    stage.addChild(uiContainer);
+}
 
+function setupGrid(stage) {
     const graphicContainer = new PIXI.Container();
-    app.stage.addChild(graphicContainer);
+    stage.addChild(graphicContainer);
 
     //cell size 100, 100
     let gridProp = {
         rowCount: 8,
         columnCount: 6,
     };
-    //let gridHeight = Math.round(renderheight / gridProp.columnCount);
-    //let gridwidth = Math.round(renderWidth / gridProp.rowCount);
+
     const w = TYPE_ENUM.WALL;
     const t = TYPE_ENUM.TOWER;
     const g = TYPE_ENUM.GRASS;
@@ -48,6 +55,8 @@ function drawGame() {
     for (let i = 0; i < gridProp.rowCount; i++) {
         for (let j = 0; j < gridProp.columnCount; j++) {
             let tile = new Tile(i, j, mapGrid[j][i]);
+
+            tile.draw();
             grid.push(tile);
         }
     }
