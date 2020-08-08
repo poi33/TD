@@ -91,11 +91,12 @@ export class Tile extends Container {
 
     }
 
-    traversable() {
-        switch(this.type) {
-            case TYPE_ENUM.WALL: return false;
-            case TYPE_ENUM.TOWER: return false;
-            case TYPE_ENUM.GRASS: return true;
+    get traversable() {
+        let state = traversable(this.type);
+        if (state) {
+            return 0;
+        } else {
+            return 1;
         }
     }
 }
@@ -103,6 +104,14 @@ export class Tile extends Container {
 /*
  * Util methods that are used in the above class
  */
+
+function traversable(type) {
+    switch(type) {
+        case TYPE_ENUM.WALL: return false;
+        case TYPE_ENUM.TOWER: return false;
+        case TYPE_ENUM.GRASS: return true;
+    }
+}
 
 function drawCell(x, y, color, lineColor=0xFFFFFF, lineWidth=1) {
     return new PGraphics()

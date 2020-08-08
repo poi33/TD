@@ -3,7 +3,7 @@
     "version": "0.0.0-ALPHA",
     "private": true,
     "scripts": {
-        "server": "http-server dist/ -p 8080",
+        "server": "http-server dist/ -p 9000",
         "build": "npx webpack --mode development",
         "RELEASE": "npx webpack --mode production"
     },
